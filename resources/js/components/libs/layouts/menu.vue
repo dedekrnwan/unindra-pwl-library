@@ -5,8 +5,8 @@
         mode="inline"
         theme="dark"
     >
-        <router-link :to="{name: item.name}" v-for="(item, i) in items" :key="i">
-            <a-menu-item :key="'menu'+i">
+        <router-link :to="{name: item.name}" v-for="(item, i) in items" :key="i" >
+            <a-menu-item v-if="show(item)" :key="'menu'+i">
                 <!--            <pie-chart-outlined />-->
                 <span>{{ item.title }}</span>
             </a-menu-item>
@@ -37,6 +37,8 @@
 
 <script>
 
+import {mapGetters} from "vuex";
+
 export default  {
     name: 'Menu',
     data: () => ({
@@ -45,34 +47,49 @@ export default  {
         items: [
             {
                 title: 'Dashboard',
-                name: 'dashboard.index'
+                name: 'dashboard.index',
+                middlewares: ['auth'],
             },
             {
                 title: 'Books',
-                name: 'book.index'
+                name: 'book.index',
+                middlewares: ['auth'],
+
             },
             {
                 title: 'Users',
-                name: 'user.index'
+                name: 'user.index',
                 // name: 'book.index'
+                middlewares: ['auth', 'admin'],
             },
             {
                 title: 'Borrowed Books',
-                name: 'userLoan.index'
+                name: 'userLoan.index',
+                middlewares: ['auth', 'admin'],
+
                 // name: 'book.index'
             },
             {
                 title: 'History Lost Books',
-                name: 'bookTurnover.index'
+                name: 'bookTurnover.index',
+                middlewares: ['auth', 'admin'],
+
                 // name: 'book.index'
             },
         ]
     }),
     computed: {
-
+        ...mapGetters({
+            isAdmin: 'auth/isAdmin',
+        }),
     },
     methods: {
-
+        show(item) {
+            if (item?.middlewares?.includes("admin")) {
+                return this.isAdmin
+            }
+            return true
+        }
     },
     watch: {
 

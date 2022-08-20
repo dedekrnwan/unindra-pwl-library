@@ -1,10 +1,9 @@
 import './bootstrap';
 import { createApp } from 'vue';
-import Antd from "./plugins/antvue";
-import VueSweetalert2 from "./plugins/sweet-alert2";
 import Router from "./router";
 import App from "./app.vue";
 import Store from "./store";
+import {Antd, VueSweetalert2} from './plugins'
 
 const app = createApp(App);
 

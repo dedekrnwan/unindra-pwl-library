@@ -5,21 +5,21 @@
         </a-breadcrumb>
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
 
-            <a-button @click="$router.push({name:'book.form'})" type="primary">Add More</a-button>
+            <a-button v-if="$store.getters['auth/isAdmin']" @click="$router.push({name:'book.form'})" type="primary">Add More</a-button>
             <a-table :columns="columns" :data-source="items">
                 <template #headerCell="{ column }">
-                    <template v-if="column.key === 'name'">
+                    <template v-if="column.key === 'title'">
                         <span>
                           <smile-outlined />
-                          Name
+                          Title
                         </span>
                     </template>
                 </template>
 
                 <template #bodyCell="{ column, record }">
-                    <template v-if="column.key === 'name'">
+                    <template v-if="column.key === 'title'">
                         <a>
-                            {{ record.name }}
+                            {{ record.title }}
                         </a>
                     </template>
                     <template v-else-if="column.key === 'publish_year'">
@@ -44,29 +44,26 @@
 <!--                    </template>-->
                     <template v-else-if="column.key === 'action'">
                         <span>
-                          <a @click="$router.push({name: 'book.form', params: record})">Update</a>
-                          <a-divider type="vertical" />
+                            <a-button v-if="$store.getters['auth/isAdmin']" @click="$router.push({name: 'book.form', params: record})" type="link">Update</a-button>
+                            <a-divider v-if="$store.getters['auth/isAdmin']" type="vertical" />
                             <a-popconfirm
                                  title="Are you sure delete this data?"
                                  ok-text="Yes"
                                  cancel-text="No"
                                  @confirm="confirmDelete(record)"
+                                 v-if="$store.getters['auth/isAdmin']"
                             >
-                                <a>Delete</a>
+                                <a-button type="link">Delete</a-button>
                             </a-popconfirm>
-                          <a-divider type="vertical" />
+                            <a-divider v-if="$store.getters['auth/isAdmin']" type="vertical" />
                              <a-popconfirm
-                                 title="Are you sure borrow this data?"
+                                 title="Are you sure borrow this book?"
                                  ok-text="Yes"
                                  cancel-text="No"
                                  @confirm="confirmBorrow(record)"
                              >
-                                <a>Delete</a>
+                                 <a-button type="link">Borrow</a-button>
                             </a-popconfirm>
-<!--                          <a class="ant-dropdown-link">-->
-<!--                            More actions-->
-<!--                            <down-outlined />-->
-<!--                          </a>-->
                         </span>
                     </template>
                 </template>
@@ -77,7 +74,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { sAlertError } from './../../../utils'
+import {sAlertError, sAlertSuccess} from './../../../utils'
 
 
 export default  {
@@ -141,7 +138,11 @@ export default  {
         }),
         async confirmBorrow(record) {
             try {
-                await this.borrowItem(record)
+                await this.borrowItem({
+                    book_id: record.id,
+                })
+                sAlertSuccess(this, "Book has been borrowed")
+                await this.getItems()
             } catch (e) {
                 sAlertError(this,e)
             }

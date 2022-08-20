@@ -19,11 +19,13 @@ class UserController extends BaseController
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|string',
+                'is_admin' => 'boolean',
             ],
             'update' => [
                 'name' => 'string',
                 'email' => 'email|unique:users',
                 'password' => 'string',
+                'is_admin' => 'boolean',
             ],
         ]);
     }

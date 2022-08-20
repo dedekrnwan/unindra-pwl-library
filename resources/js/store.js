@@ -4,6 +4,7 @@ import book from './modules/book/store';
 import user from './modules/user/store';
 import userLoan from './modules/userLoan/store';
 import bookTurnover from './modules/bookTurnover/store';
+import auth from './modules/auth/store';
 
 export default createStore({
     state: {},
@@ -15,6 +16,7 @@ export default createStore({
         user,
         userLoan,
         bookTurnover,
+        auth,
     },
     devtools: true,
 })

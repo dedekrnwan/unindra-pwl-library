@@ -10,6 +10,14 @@ Currently this source code only can played in local
 - run command `npm install`
 - run command `npm dev`
 
+## User Creds
+- admin:
+  - kchamplin@example.com
+  - password
+- user:
+  - veronica76@example.com
+  - password
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.

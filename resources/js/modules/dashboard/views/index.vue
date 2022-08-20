@@ -4,6 +4,7 @@
             <a-breadcrumb-item>Dashboard</a-breadcrumb-item>
         </a-breadcrumb>
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+            <h4>Welcome to PWL Library - Xyz</h4>
         </div>
     </div>
 </template>

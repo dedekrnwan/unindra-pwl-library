@@ -1,7 +1,7 @@
 
-export const sAlertError = (vm, error, message = 'Something went wrong!') => {
+export const sAlertError = (vm, error, message) => {
     if (error) console.error(error);
-    message = message ? message : 'Something went wrong!'
+    message = message ? message : error.data.meta.message ? error.data.meta.message : 'Something went wrong!'
     return vm.$swal.fire({
         type: 'error',
         title: 'Oops...',

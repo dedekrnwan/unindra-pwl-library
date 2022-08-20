@@ -4,7 +4,7 @@ export default [
         name: 'bookTurnover.index',
         component: () => import('./views/index.vue'),
         meta: {
-            middlewares: ['auth']
+            middlewares: ['auth', 'admin'],
         }
     },
     {
@@ -12,7 +12,7 @@ export default [
         name: 'bookTurnover.form',
         component: () => import('./views/form.vue'),
         meta: {
-            middlewares: ['auth']
+            middlewares: ['auth', 'admin'],
         }
     }
 ]

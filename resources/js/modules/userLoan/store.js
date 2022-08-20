@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import UserLoanService from "./service";
 import * as constants from './../../constants'
+import moment from "moment";
 
 const service = new UserLoanService()
 
@@ -85,6 +86,24 @@ export default {
                 reject(error)
             } finally {
                 commit(constants.PROMISE_DONE)
+            }
+        }),
+        borrow: (ctx, payload) => new Promise(async (resolve, reject) => {
+            try {
+                ctx.commit(constants.PROMISE_START)
+                const response = await service.create({
+                    effective_date: moment().format("DD-MM-YYYY"),
+                    expired_date: moment().add(7, 'days').format("DD-MM-YYYY"),
+                    user_id: ctx.rootState.auth.user.id,
+                    book_id: payload.book_id,
+                    quantity: 1,
+                })
+                ctx.dispatch('get')
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            } finally {
+                ctx.commit(constants.PROMISE_DONE)
             }
         }),
     },
